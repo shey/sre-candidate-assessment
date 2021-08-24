@@ -1,0 +1,24 @@
+- name: Create a flask App Server (nginx/flask/gunicorn)
+  hosts: flaskapps
+  become: yes
+  roles:
+    - { role: base, tags: ['base'] }
+    - { role: custom-users, tags: ['users'] }
+    - { role: nginx, tags: ['nginx'] }
+    - { role: security, tags: ['security'] }
+    - { role: swap, tags: ['swap'] }
+    - { role: redis, tags: ['redis'] }
+    - { role: flask-app, tags: ['flask-app', 'flask'] }
+    - { role: flask-site, tags: ['flask-site', 'flask'] }
+
+- name: deploy flask App
+  hosts: flaskapps
+  tags: ['deploy']
+  vars:
+      ansible_user: "{{ deploy_user }}"
+  roles:
+    - { role: deploy-flask-app, tags: ['flask'] }
+    - { role: flask-app-settings, tags: ['flask-app', 'flask', 'flask-config']}
+  tasks:
+    - name: restart flask app
+      shell: "sudo service flask restart"

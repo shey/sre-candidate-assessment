@@ -1,0 +1,15 @@
+- name: create a directory for app
+  file:
+    path: "{{ flask_app_home}}"
+    state: directory
+    owner: "{{ deploy_user }}"
+    group: "{{ deploy_user }}"
+
+
+- name: update flask env settings
+  template:
+    src: settings.py.j2
+    dest: "{{ flask_app_home }}/settings.py"
+    owner: "{{ deploy_user }}"
+    group: "{{ deploy_user }}"
+    mode: 0444

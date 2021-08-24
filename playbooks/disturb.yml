@@ -1,0 +1,13 @@
+- name: Misconfigure and sabotage host
+  hosts: flaskapps
+  become: yes
+  vars:
+      app_port: 9000
+  pre_tasks:
+    - name: stop flask
+      shell: service flask stop
+  roles:
+    - { role: flask-app, tags: ['flask'] }
+  tasks:
+    - name: stop nginx
+      shell: "service nginx stop"

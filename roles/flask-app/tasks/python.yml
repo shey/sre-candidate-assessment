@@ -1,0 +1,24 @@
+- name: install python packages
+  apt:
+    name: python3.8-venv
+    state: latest
+
+- name: create a directory to house a virtualenvs
+  file:
+    path: /home/deployer/venvs
+    state: directory
+    owner: "deployer"
+    group: "deployer"
+
+- name: create virtualenv for app
+  shell: python -m venv {{ flask_app_name }}
+  args:
+   chdir: "/home/deployer/venvs"
+   creates: "/home/deployer/venvs/{{ flask_app_name }}"
+  become: true
+  become_user: deployer
+
+- name: upgrade pip
+  shell: "/home/deployer/venvs/{{ flask_app_name }}/bin/pip install --upgrade pip"
+  become: true
+  become_user: deployer

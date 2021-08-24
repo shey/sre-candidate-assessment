@@ -1,0 +1,5 @@
+# {{ ansible_managed }}
+
+deployer ALL=(ALL) NOPASSWD:/usr/sbin/service flask stop
+deployer ALL=(ALL) NOPASSWD:/usr/sbin/service flask start
+deployer ALL=(ALL) NOPASSWD:/usr/sbin/service flask restart

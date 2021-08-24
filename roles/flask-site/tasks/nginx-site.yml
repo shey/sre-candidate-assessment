@@ -1,0 +1,25 @@
+- name: Add flask app site config
+  template:
+    src: nginx-site.j2
+    dest: /etc/nginx/sites-available/{{ flask_app_name }}
+    owner: www-data
+    group: www-data
+    mode: 0644
+    backup: true
+  tags: ['nginx-config', 'flask-config' ]
+
+- name: enable app site
+  file:
+    src: /etc/nginx/sites-available/{{ flask_app_name }}
+    dest: /etc/nginx/sites-enabled/{{ flask_app_name }}
+    owner: www-data
+    group: www-data
+    state: link
+  tags: ['nginx-config', 'flask-config' ]
+
+- name: restart nginx
+  service:
+    name: nginx
+    enabled: yes
+    state: restarted
+  tags: ['nginx-config', 'flask-config' ]

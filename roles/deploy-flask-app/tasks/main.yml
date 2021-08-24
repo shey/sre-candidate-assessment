@@ -1,0 +1,12 @@
+- name: checkout git repo
+  git:
+    repo: "{{ flask_git_repo }}"
+    dest: "{{ flask_app_home }}"
+    depth: 1
+    accept_hostkey: True
+    force: yes
+    version: "{% if flask_branch == '' %}{{'main'}}{% else %}{{flask_branch}}{% endif %}"
+  tags: ['git']
+
+- name: install requirements
+  shell: "/home/{{ deploy_user }}/venvs/{{ flask_app_name }}/bin/pip install --no-cache-dir -q -r {{ flask_app_home }}/requirements.txt"

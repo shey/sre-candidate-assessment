@@ -1,0 +1,3 @@
+- include: github.yml
+- include: python.yml
+- include: service.yml

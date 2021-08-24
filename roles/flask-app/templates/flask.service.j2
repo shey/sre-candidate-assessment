@@ -1,0 +1,15 @@
+[Unit]
+Description=Flask Health Service
+After=redis.service
+
+[Service]
+user={{ deploy_user }}
+WorkingDirectory = /home/{{ deploy_user }}/{{ flask_app_name }}
+ExecStart=/home/{{ deploy_user }}/venvs/{{ flask_app_name }}/bin/gunicorn main:app -w 1 -b localhost:{{ app_port | default('8080') }}
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier={{ flask_app_name }}
+
+[Install]
+WantedBy=basic.target

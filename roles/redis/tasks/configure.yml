@@ -1,0 +1,25 @@
+- name: configure redis
+  template:
+    src: redis.conf.j2
+    dest: /etc/redis/redis.conf
+    owner: redis
+    group: redis
+    mode: 0644
+
+# from: https://docs.mongodb.com/manual/tutorial/transparent-huge-pages/
+- name: configure Transparent Huge Pages Service for Redis
+  template:
+    src: thp.service.j2
+    dest: /etc/systemd/system/disable-transparent-huge-pages.service
+
+- name: Enable Transparent Huge Pages
+  ansible.builtin.systemd:
+    name: disable-transparent-huge-pages
+    enabled: yes
+    state: started
+
+- name: restart redis
+  ansible.builtin.systemd:
+    name: redis
+    enabled: yes
+    state: restarted

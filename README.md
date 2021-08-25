@@ -4,7 +4,7 @@ A collection of Ansible playbooks and roles that configure and setup a Ubuntu 20
 
 This project requires Vagrant and Virtualbox. Setup is driven through `make`. Running `make disturb` configures gunicorn to serve requests on port 9000 instead of 8080, and stops the Nginx service. Running `make build` starts the setup process.
 
-The candidate is presented with the scenario below and asked to repair the server. The ideal candidate will identify the misconfiguration, update either the gunicorn or nginx configuration file, and restart Nginx.
+The candidate is presented with the scenario below; is expected to identify and remediate the misconfiguration, and return the hosts to proper working order.
 
 
 ### Scenario:
